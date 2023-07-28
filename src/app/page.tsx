@@ -1,4 +1,4 @@
-import { Timer } from "./ui/display";
+import Timer from "./ui/timer";
 
 export default function Home() {
   return (
