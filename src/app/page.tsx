@@ -1,4 +1,4 @@
-import Timer from "./ui/timer";
+import Timer from "../ui/timer";
 
 export default function Home() {
   return (

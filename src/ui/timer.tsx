@@ -18,7 +18,7 @@ useEffect (() => {
 
 const start = () => setIsOn(!isOn)
 const reset = () => setTime(0)
-const hiddenReset = isOn || time === 0 ? "hidden" : "text-4xl"
+const hiddenReset = isOn || time === 0 ? "hidden" : "text-2xl"
 
 
 
