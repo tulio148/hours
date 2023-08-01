@@ -16,6 +16,17 @@ export default function Timer() {
     return () => clearInterval(interval);
   }, [isOn, time]);
 
+  useEffect(() => {
+    const savedTime = localStorage.getItem("time");
+    if (savedTime) {
+      setTime(JSON.parse(savedTime));
+    }
+   } , []);
+
+  useEffect(() => {
+    localStorage.setItem("time", JSON.stringify(time));
+  }, [time]);
+  
   const start = () => {
     setIsOn(!isOn);
     if (isOn === true) {
@@ -23,7 +34,7 @@ export default function Timer() {
     }
   };
   const reset = () => setTime(0);
-  
+
   const hideDisplayFunc = () => {
     setDisplayIsHidden(!displayIsHidden);
   };
@@ -33,9 +44,10 @@ export default function Timer() {
       ? "hidden"
       : "text-2xl border-2 m-2 p-2 w-1/5 rounded-md";
 
-  const hideDisplay = !displayIsHidden
-    ? "flex-col p-3 m-2 text-center text-8xl text-zinc-900 bg-zinc-100 rounded-md"
-    : "flex-col p-3 m-2 text-center text-8xl text-zinc-900 bg-zinc-100 rounded-md transition-opacity duration-1000 opacity-0";
+  const hideDisplay = 
+    !displayIsHidden
+      ? "flex-col p-3 m-2 text-center text-8xl text-zinc-900 bg-zinc-100 rounded-md"
+      : "flex-col p-3 m-2 text-center text-8xl text-zinc-900 bg-zinc-100 rounded-md transition-opacity duration-1000 opacity-0";
 
   return (
     <div className="flex-col m-2 p-2 border-double border-2 w-1/2 border-zinc-500 rounded-lg">
@@ -47,7 +59,6 @@ export default function Timer() {
         hideResetBtn={hideResetBtn}
         hideDisplayFunc={hideDisplayFunc}
         displayIsHidden={displayIsHidden}
-        time={time}
       />
     </div>
   );

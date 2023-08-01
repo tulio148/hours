@@ -15,7 +15,6 @@ export default function Controls({
   hideResetBtn: string;
   hideDisplayFunc: () => void;
   displayIsHidden: boolean;
-  time: number;
 }) {
   return (
     <>
