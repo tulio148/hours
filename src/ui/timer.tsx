@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import Display from "./display";
 import Controls from "./controls";
+import { useTime } from "@/context/timeContext";
 
 export default function Timer() {
-  const [time, setTime] = useState(0);
+  const {time, setTime}  = useTime()
   const [isOn, setIsOn] = useState(false);
   const [displayIsHidden, setDisplayIsHidden] = useState(false);
 
