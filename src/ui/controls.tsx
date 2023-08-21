@@ -1,25 +1,36 @@
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ControlButton from "./control_button";
 
 export default function Controls({
   isOn,
   start,
   reset,
-  hideResetBtn,
+  hideBtn,
   hideDisplayFunc,
   displayIsHidden,
 }: {
   start: () => void;
   reset: () => void;
   isOn: boolean;
-  hideResetBtn: string;
+  hideBtn: string;
   hideDisplayFunc: () => void;
   displayIsHidden: boolean;
 }) {
   return (
     <>
       <div className="flex justify-around">
-        <button className={hideResetBtn} onClick={reset}>
+        <ControlButton onClick={reset} className={hideBtn}>
+          reset
+        </ControlButton>
+        <ControlButton onClick={start}>
+          {isOn ? "pause" : "start"}
+        </ControlButton>
+        <ControlButton className={hideBtn} onClick={reset}>
+          end
+        </ControlButton>
+
+        {/* <button className={hideResetBtn} onClick={reset}>
           Reset
         </button>
         <button
@@ -31,14 +42,26 @@ export default function Controls({
         <button className={hideResetBtn} onClick={reset}>
           Finish
         </button>
+        <button onClick={hideDisplayFunc} className="float-right m-2">
+          {isOn ? (
+            !displayIsHidden ? (
+              <FontAwesomeIcon
+                icon={faEye}
+                size="lg"
+                style={{ color: "black" }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faEyeSlash}
+                size="lg"
+                style={{ color: "black" }}
+              />
+            )
+          ) : (
+            ""
+          )}
+        </button> */}
       </div>
-      <button onClick={hideDisplayFunc} className="float-right m-2">
-        {!displayIsHidden ? (
-          <FontAwesomeIcon icon={faEye} size="lg" style={{color: "black"}}/>
-        ) : (
-          <FontAwesomeIcon icon={faEyeSlash } size="lg" style={{color: "black"}} />
-        )}
-      </button>
     </>
   );
 }
