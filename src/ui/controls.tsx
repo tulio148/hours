@@ -29,39 +29,30 @@ export default function Controls({
         <ControlButton className={hideBtn} onClick={reset}>
           end
         </ControlButton>
-
-        {/* <button className={hideResetBtn} onClick={reset}>
-          Reset
-        </button>
-        <button
-          className="text-2xl border-2 m-2 p-2 w-1/5 rounded-md"
-          onClick={start}
-        >
-          {isOn ? "Pause" : "Start"}
-        </button>
-        <button className={hideResetBtn} onClick={reset}>
-          Finish
-        </button>
-        <button onClick={hideDisplayFunc} className="float-right m-2">
-          {isOn ? (
-            !displayIsHidden ? (
-              <FontAwesomeIcon
-                icon={faEye}
-                size="lg"
-                style={{ color: "black" }}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faEyeSlash}
-                size="lg"
-                style={{ color: "black" }}
-              />
-            )
-          ) : (
-            ""
-          )}
-        </button> */}
       </div>
+
+      {isOn ? (
+        <button
+          onClick={hideDisplayFunc}
+          className="float-right m-2 transition-opacity duration-300 opacity-20 ease-out hover:opacity-100 "
+        >
+          {!displayIsHidden ? (
+            <FontAwesomeIcon
+              icon={faEye}
+              size="lg"
+              style={{ color: "black" }}
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faEyeSlash}
+              size="lg"
+              style={{ color: "black" }}
+            />
+          )}
+        </button>
+      ) : (
+        ""
+      )}
     </>
   );
 }
