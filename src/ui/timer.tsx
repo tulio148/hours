@@ -43,20 +43,19 @@ export default function Timer() {
   const hideBtn = isOn || time === 0 ? "hidden" : "";
 
   const hideDisplay = !displayIsHidden
-    ? "flex-col p-3 m-2 antialiased text-center text-xl sm:text-3xl lg:text-5xl text-zinc-900 bg-zinc-100 rounded-md"
-    : "flex-col p-3 m-2 antialiased text-center text-xl sm:text-3xl lg:text-5xl text-zinc-900 bg-zinc-100 rounded-md transition-opacity duration-1000 opacity-0";
+    ? "transition-opacity duration-1000 opacity-100"
+    : "transition-opacity duration-1000 opacity-0";
 
   return (
-    <div className="flex-col m-2 p-2 border-double border-2 w-min h-min  border-zinc-500 rounded-lg">
-      <Display time={time} hideDisplay={hideDisplay} />
-      <Controls
-        start={start}
-        reset={reset}
+    <div className="flex flex-col gap-5 m-2 p-2 w-4/5 sm:w-1/2 max-w-2xl ">
+      <Display
+        time={time}
         isOn={isOn}
-        hideBtn={hideBtn}
+        hideDisplay={hideDisplay}
         hideDisplayFunc={hideDisplayFunc}
         displayIsHidden={displayIsHidden}
       />
+      <Controls start={start} reset={reset} isOn={isOn} hideBtn={hideBtn} />
     </div>
   );
 }

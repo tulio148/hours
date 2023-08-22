@@ -9,7 +9,7 @@ export default function ControlButton({
   onClick: () => void;
   className?: string;
 }) {
-  const classes = `${className} text-base border-2 m-2 p-6 w-1/5 rounded-md`;
+  const classes = `${className} text-center text-base border-2 m-1 p-1 w-1/4 rounded-md`;
 
   return (
     <button className={classes} onClick={onClick}>
