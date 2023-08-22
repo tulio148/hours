@@ -2,12 +2,11 @@
 import { useState, useEffect } from "react";
 import Display from "./display";
 import Controls from "./controls";
-import { useTime } from "@/context/timeContext";
+import { useTime } from "@/context/timerContext";
 
 export default function Timer() {
-  const { time, setTime } = useTime();
-  const [isOn, setIsOn] = useState(false);
-  const [displayIsHidden, setDisplayIsHidden] = useState(false);
+  const { time, setTime, isOn, setIsOn, displayIsHidden, setDisplayIsHidden } =
+    useTime();
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -34,6 +33,7 @@ export default function Timer() {
       setDisplayIsHidden(false);
     }
   };
+
   const reset = () => setTime(0);
 
   const hideDisplayFunc = () => {

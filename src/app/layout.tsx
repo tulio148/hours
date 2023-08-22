@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
-import { TimeProvider } from "@/context/timeContext";
+import { TimerProvider } from "@/context/timerContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <TimeProvider>{children}</TimeProvider>
+        <TimerProvider>{children}</TimerProvider>
       </body>
     </html>
   );
