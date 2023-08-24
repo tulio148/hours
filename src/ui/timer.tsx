@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useTime } from "@/context/timerContext";
 import Display from "./display";
 import Controls from "./controls";
-import { useTime } from "@/context/timerContext";
 
 export default function Timer() {
   const { time, setTime, isOn, setIsOn, displayIsHidden, setDisplayIsHidden } =
@@ -42,16 +42,11 @@ export default function Timer() {
 
   const hideBtn = isOn || time === 0 ? "hidden" : "";
 
-  const hideDisplay = !displayIsHidden
-    ? "transition-opacity duration-1000 opacity-100"
-    : "transition-opacity duration-1000 opacity-0";
-
   return (
     <div className="flex flex-col gap-5 m-2 p-2 w-4/5 sm:w-1/2 max-w-2xl ">
       <Display
         time={time}
         isOn={isOn}
-        hideDisplay={hideDisplay}
         hideDisplayFunc={hideDisplayFunc}
         displayIsHidden={displayIsHidden}
       />
