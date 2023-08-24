@@ -27,7 +27,7 @@ export default function Form() {
       console.error('Error inserting data:', error);
     }
   };
-  };
+  
 
   const { time } = useTime();
 
@@ -57,4 +57,4 @@ export default function Form() {
       </form>
     </div>
   );
-}
+  }
