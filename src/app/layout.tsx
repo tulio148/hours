@@ -1,10 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { TimerProvider } from "@/context/timerContext";
-import { SessionProvider } from "next-auth/react";
-
-
+import { TimerProvider } from "@/providers/timerProvider";
+import { AuthProvider } from "@/providers/authProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -12,7 +10,7 @@ export const metadata: Metadata = {
   description: "Produtivity app",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -20,8 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-
-        <TimerProvider>{children}</TimerProvider>
+        <AuthProvider>
+          <TimerProvider>{children}</TimerProvider>
+        </AuthProvider>
       </body>
     </html>
   );

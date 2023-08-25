@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { useTime } from "@/context/timerContext";
+import { useTime } from "@/providers/timerProvider";
 import Display from "./display";
 import Controls from "./controls";
 

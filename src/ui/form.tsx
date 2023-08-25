@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useTime } from "@/context/timerContext";
+import { useTime } from "@/providers/timerProvider";
 import { timeFormatter } from "@/utils/timeFormatter";
 import { PrismaClient } from "@prisma/client";
 
@@ -18,16 +18,13 @@ export default function Form() {
     // console.log(data);
     try {
       await prisma.user.create({
-        data: {
-          
-        },
+        data: {},
       });
-      console.log('Data inserted successfully.');
+      console.log("Data inserted successfully.");
     } catch (error) {
-      console.error('Error inserting data:', error);
+      console.error("Error inserting data:", error);
     }
   };
-  
 
   const { time } = useTime();
 
@@ -57,4 +54,4 @@ export default function Form() {
       </form>
     </div>
   );
-  }
+}
