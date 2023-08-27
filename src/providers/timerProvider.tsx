@@ -10,7 +10,7 @@ type TimerContextType = {
   setDisplayIsHidden: (value: boolean) => void;
 };
 
-export const TimerContext = createContext<TimeContextType>({
+export const TimerContext = createContext<TimerContextType>({
   time: 0,
   setTime: () => {},
   isOn: false,

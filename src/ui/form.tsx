@@ -1,46 +1,34 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useTime } from "@/providers/timerProvider";
-import { timeFormatter } from "@/utils/timeFormatter";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { useSession } from "next-auth/react";
 
 export default function Form() {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      first_name: "",
       name: "",
     },
   });
   const onSubmit = async (data: any) => {
-    // console.log(data);
+    console.log(data);
     try {
-      await prisma.user.create({
-        data: {},
+      await fetch(`/api/activity/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: data,
       });
-      console.log("Data inserted successfully.");
     } catch (error) {
-      console.error("Error inserting data:", error);
+      console.error(error);
     }
   };
-
-  const { time } = useTime();
+  const { data: session, status } = useSession();
 
   return (
     <div>
       <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
-        <label className="text-center" htmlFor="first_name">
-          Name
-        </label>
-        <input
-          className="border"
-          type="text"
-          placeholder=""
-          {...register("first_name", {})}
-        />
-        <label className="text-center" htmlFor="name">
+        <label className="text-center" htmlFor="Activity">
           Activity
         </label>
         <input
@@ -50,7 +38,6 @@ export default function Form() {
           {...register("name", {})}
         />
         <input type="submit" />
-        <h1>{timeFormatter(time)}</h1>
       </form>
     </div>
   );
