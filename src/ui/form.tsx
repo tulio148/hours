@@ -1,17 +1,16 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
 
 export default function Form() {
-  const { data: session, status } = useSession();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       name: "",
+      description: "",
     },
   });
   const onSubmit = async (data: any) => {
-    console.log(data);
+    // console.log(data);
     try {
       await fetch("/activity/", {
         method: "POST",
@@ -36,6 +35,15 @@ export default function Form() {
           type="text"
           placeholder=""
           {...register("name", {})}
+        />
+        <label className="text-center" htmlFor="Activity">
+          description
+        </label>
+        <input
+          className="border"
+          type="text"
+          placeholder=""
+          {...register("description", {})}
         />
         <input type="submit" />
       </form>
