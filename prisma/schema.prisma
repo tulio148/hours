@@ -59,8 +59,8 @@ model Activity {
   id          Int      @id @default(autoincrement())
   name        String
   description String?
-  hours       Int
-  created     DateTime
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String
+  hours       Int?
+  created     DateTime @default(now())
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      String?
 }

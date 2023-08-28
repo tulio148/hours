@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `authorId` on the `Activity` table. All the data in the column will be lost.
-  - The primary key for the `User` table will be changed. If it partially fails, the table could be left without primary key constraint.
-  - You are about to drop the column `first_name` on the `User` table. All the data in the column will be lost.
-  - Added the required column `userId` to the `Activity` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL PRIMARY KEY,
@@ -34,45 +25,40 @@ CREATE TABLE "Session" (
 );
 
 -- CreateTable
-CREATE TABLE "VerificationToken" (
-    "identifier" TEXT NOT NULL,
-    "token" TEXT NOT NULL,
-    "expires" DATETIME NOT NULL
-);
-
--- RedefineTables
-PRAGMA foreign_keys=OFF;
-CREATE TABLE "new_Activity" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL,
-    "description" TEXT,
-    "hours" INTEGER NOT NULL,
-    "created" DATETIME NOT NULL,
-    "userId" TEXT NOT NULL,
-    CONSTRAINT "Activity_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-INSERT INTO "new_Activity" ("created", "description", "hours", "id", "name") SELECT "created", "description", "hours", "id", "name" FROM "Activity";
-DROP TABLE "Activity";
-ALTER TABLE "new_Activity" RENAME TO "Activity";
-CREATE TABLE "new_User" (
+CREATE TABLE "User" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT,
     "email" TEXT,
     "emailVerified" DATETIME,
     "image" TEXT
 );
-INSERT INTO "new_User" ("email", "id") SELECT "email", "id" FROM "User";
-DROP TABLE "User";
-ALTER TABLE "new_User" RENAME TO "User";
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-PRAGMA foreign_key_check;
-PRAGMA foreign_keys=ON;
+
+-- CreateTable
+CREATE TABLE "VerificationToken" (
+    "identifier" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "expires" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Activity" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "description" TEXT,
+    "hours" INTEGER,
+    "created" DATETIME,
+    "userId" TEXT,
+    CONSTRAINT "Activity_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token");

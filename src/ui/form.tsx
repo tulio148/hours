@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 
 export default function Form() {
+  const { data: session, status } = useSession();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       name: "",
@@ -12,18 +13,17 @@ export default function Form() {
   const onSubmit = async (data: any) => {
     console.log(data);
     try {
-      await fetch(`/api/activity/`, {
+      await fetch("/activity/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: data,
+        body: JSON.stringify(data),
       });
     } catch (error) {
       console.error(error);
     }
   };
-  const { data: session, status } = useSession();
 
   return (
     <div>
