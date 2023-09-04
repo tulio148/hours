@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { TimerProvider } from "@/providers/timerProvider";
-import { AuthProvider } from "@/providers/authProvider";
+import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,12 +16,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <AuthProvider>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
           <TimerProvider>{children}</TimerProvider>
-        </AuthProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
