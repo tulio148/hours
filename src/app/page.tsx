@@ -1,22 +1,18 @@
 import Timer from "../ui/timer";
+import { UserButton } from "@clerk/nextjs";
+import { SignIn } from "@clerk/nextjs";
 import Form from "@/ui/form";
-import Component from "@/ui/test";
-import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-
 export default async function Home() {
-  let users = await prisma.user.findMany();
-  const session = await getServerSession(authOptions);
   return (
     <main className="h-screen w-screen flex items-center justify-around flex-col">
-      {/* <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul> */}
-      <pre>{JSON.stringify(session, null, 2)}</pre>
-      <Component />
+      <SignIn />
+      <UserButton afterSignOutUrl="/" />
+      <a
+        href="/activity"
+        className="text-2xl font-bold underline text-blue-500"
+      >
+        Activity
+      </a>
       <Form />
       <Timer />
     </main>
