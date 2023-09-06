@@ -22,7 +22,8 @@ async function initDB(): Promise<sqlite3.Database> {
       db!.run(`
         CREATE TABLE IF NOT EXISTS user (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT,
+          first_name TEXT,
+          last_name TEXT,
           email TEXT
         );
       `);
@@ -31,7 +32,7 @@ async function initDB(): Promise<sqlite3.Database> {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT,
           description TEXT,
-          hours INTEGER
+          hours INTEGER DEFAULT 0
         );
       `);
     });
