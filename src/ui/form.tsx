@@ -9,10 +9,25 @@ export default function Form() {
       description: "",
     },
   });
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const onSubmit = async (data: any) => {
+    try {
+      const response = await fetch("/activity", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
+      if (response.status === 200) {
+        console.log("Activity created successfully");
+      } else {
+        console.log("Error creating user");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div>
       <form
