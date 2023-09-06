@@ -12,9 +12,29 @@ async function initDB(): Promise<sqlite3.Database> {
       (err) => {
         if (err) {
           console.error("SQLite error:", err.message);
+        } else {
+          console.log("Connected to the SQLite database");
         }
       }
     );
+
+    db.serialize(() => {
+      db!.run(`
+        CREATE TABLE IF NOT EXISTS user (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT,
+          email TEXT
+        );
+      `);
+      db!.run(`
+        CREATE TABLE IF NOT EXISTS activity (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT,
+          description TEXT,
+          hours INTEGER
+        );
+      `);
+    });
   }
   return db;
 }
@@ -24,6 +44,8 @@ async function closeDB(): Promise<void> {
     db.close((err) => {
       if (err) {
         console.error("Error closing the database:", err.message);
+      } else {
+        console.log("Closed the database connection");
       }
     });
     db = null;
