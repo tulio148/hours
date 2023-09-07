@@ -31,7 +31,6 @@ async function initDB(): Promise<sqlite3.Database> {
         CREATE TABLE IF NOT EXISTS activity (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT,
-          description TEXT,
           hours INTEGER DEFAULT 0
         );
       `);
