@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { TimerProvider } from "@/providers/timerProvider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ActivityProvider } from "@/providers/activityProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <TimerProvider>{children}</TimerProvider>
+          <ActivityProvider>
+            <TimerProvider>{children}</TimerProvider>
+          </ActivityProvider>
         </body>
       </html>
     </ClerkProvider>

@@ -1,24 +1,27 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useActivity } from "@/providers/activityProvider";
 
 export default function Form() {
+  const { name, setName } = useActivity();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       name: "",
-      description: "",
     },
   });
   const onSubmit = async (data: any) => {
+    setName(data.name);
+
     try {
-      const response = await fetch("/activity", {
+      const response = await fetch("api/activity/1/add-time", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(name),
+        // body: name,
       });
-
       if (response.status === 200) {
         console.log("Activity created successfully");
       } else {
@@ -42,13 +45,6 @@ export default function Form() {
           {...register("name", {})}
         />
 
-        <label htmlFor="Description">Description</label>
-        <input
-          className="border p-2"
-          type="text"
-          placeholder=""
-          {...register("description", {})}
-        />
         <input type="submit" />
       </form>
     </div>
