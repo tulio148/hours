@@ -8,7 +8,7 @@ import Controls from "./controls";
 export default function Timer() {
   const { time, setTime, isOn, setIsOn, displayIsHidden, setDisplayIsHidden } =
     useTime();
-  const { name } = useActivity();
+  const { setActivityTime } = useActivity();
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -38,24 +38,28 @@ export default function Timer() {
 
   const reset = () => setTime(0);
 
-  const end = async () => {
-    const finishTime = time;
-    try {
-      const response = await fetch("/activity/[id]", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(finishTime),
-      });
-      if (response.status === 200) {
-        console.log("Activity updated successfully");
-      } else {
-        console.log("Error updating");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const end = () => {
+    setActivityTime(time);
+    setTime(0);
+
+    // const finishTime = time;
+    // try {
+    //   const response = await fetch("api/activity/add-time/1", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(finishTime),
+    //   });
+    //   if (response.status === 200) {
+    //     console.log("Activity updated successfully");
+    //   } else {
+    //     console.log("Error updating");
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    // setTime(0);
   };
 
   const hideDisplayFunc = () => {
