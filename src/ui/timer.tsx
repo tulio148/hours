@@ -8,7 +8,7 @@ import Controls from "./controls";
 export default function Timer() {
   const { time, setTime, isOn, setIsOn, displayIsHidden, setDisplayIsHidden } =
     useTime();
-  const { setActivityTime } = useActivity();
+  const { name, setActivityTime } = useActivity();
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -41,48 +41,25 @@ export default function Timer() {
   const end = () => {
     setActivityTime(time);
     setTime(0);
-
-    // const finishTime = time;
-    // try {
-    //   const response = await fetch("api/activity/add-time/1", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(finishTime),
-    //   });
-    //   if (response.status === 200) {
-    //     console.log("Activity updated successfully");
-    //   } else {
-    //     console.log("Error updating");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
-    // setTime(0);
   };
 
   const hideDisplayFunc = () => {
     setDisplayIsHidden(!displayIsHidden);
   };
 
-  const hideBtn = isOn || time === 0 ? "hidden" : "";
-
   return (
-    <div className="flex flex-col gap-5 m-2 p-2 w-4/5 sm:w-1/2 max-w-2xl ">
-      <Display
-        time={time}
-        isOn={isOn}
-        hideDisplayFunc={hideDisplayFunc}
-        displayIsHidden={displayIsHidden}
-      />
-      <Controls
-        start={start}
-        reset={reset}
-        end={end}
-        isOn={isOn}
-        hideBtn={hideBtn}
-      />
-    </div>
+    <>
+      {name != "" && (
+        <div className="flex flex-col gap-5">
+          <Display
+            time={time}
+            isOn={isOn}
+            hideDisplayFunc={hideDisplayFunc}
+            displayIsHidden={displayIsHidden}
+          />
+          <Controls start={start} reset={reset} end={end} />
+        </div>
+      )}
+    </>
   );
 }

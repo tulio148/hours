@@ -6,7 +6,7 @@ import { faClock, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { hour, minutes, seconds } from "@/utils/timeFormatter";
-import ControlButton from "./control_button";
+import { createActivity } from "@/app/_actions";
 
 export default function Form() {
   const { name, setName, activityTime, setActivityTime } = useActivity();
@@ -17,36 +17,16 @@ export default function Form() {
     },
   });
   const onSubmit = async (data: any) => {
-    setName(data.name);
-    reset();
+    // setName(data.name);
+    // reset();
+    console.log(data);
+    createActivity(data);
   };
 
-  const create = async () => {
-    try {
-      const response = await fetch("api/activity/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(name),
-        // body: name,
-      });
-      if (response.status === 200) {
-        console.log("Activity created successfully");
-      } else {
-        console.log("Error creating user");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setName("");
-      setActivityTime(0);
-    }
-  };
   return (
-    <div className="flex flex-col gap-4 p-3">
+    <div className="flex flex-col gap-4 p-3 w-full">
       {name != "" && (
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-5 border-b">
           <div>{name}</div>
           <div className="flex gap-2 items-center">
             <FontAwesomeIcon
@@ -68,27 +48,27 @@ export default function Form() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <div className="flex gap-2">
-          <input
-            className="border-b pt-2 focus:outline-none"
-            type="text"
-            placeholder=""
-            {...register("name", {})}
-          />
-          <button type="submit" className="icon-button">
-            <FontAwesomeIcon
-              icon={faPlus}
-              size="lg"
-              style={{ color: "#636974" }}
+      {name == "" && (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-2 "
+        >
+          <div className="flex gap-2">
+            <input
+              className="border-b pt-2 focus:outline-none w-full"
+              type="text"
+              placeholder=""
+              {...register("name", {})}
             />
-          </button>
-        </div>
-      </form>
-      {name != "" && (
-        <ControlButton className="self-center" onClick={create}>
-          Save
-        </ControlButton>
+            <button type="submit" className="icon-button">
+              <FontAwesomeIcon
+                icon={faPlus}
+                size="lg"
+                style={{ color: "#636974" }}
+              />
+            </button>
+          </div>
+        </form>
       )}
     </div>
   );
