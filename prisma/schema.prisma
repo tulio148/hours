@@ -13,17 +13,21 @@ datasource db {
 model User {
   id         String     @id
   email      String     @unique
-  fullName   String
   firstName  String
   lastName   String
-  createdAt  DateTime
-  updatedAt  DateTime
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
   activities Activity[]
 }
 
 model Activity {
-  id     Int     @id @default(autoincrement())
-  name   String
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  id        Int      @id @default(autoincrement())
+  name      String
+  hours     Int      @default(0)
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, userId])
 }
