@@ -5,7 +5,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Activity({ activity }) {
-  const { setactivityName, activitySelected, setActivitySelected } =
+  const { setActivityName, activitySelected, setActivitySelected } =
     useActivity();
 
   const selectActivity = (id: number) => {
@@ -15,7 +15,7 @@ export default function Activity({ activity }) {
   const id = activity.id;
 
   if (activitySelected === id) {
-    setactivityName(activity.name), setActivitySelected(activity.id);
+    setActivityName(activity.name), setActivitySelected(activity.id);
   }
 
   return (

@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 
 type ActivityContextType = {
   activityName: string;
-  setactivityName: (value: string) => void;
+  setActivityName: (value: string) => void;
   activityTime: number;
   setActivityTime: (value: number) => void;
   activitySelected: number;
@@ -12,7 +12,7 @@ type ActivityContextType = {
 
 export const ActivityContext = createContext<ActivityContextType>({
   activityName: "",
-  setactivityName: () => {},
+  setActivityName: () => {},
   activityTime: 0,
   setActivityTime: () => {},
   activitySelected: 0,
@@ -24,14 +24,14 @@ export const ActivityProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [activityName, setactivityName] = useState("");
+  const [activityName, setActivityName] = useState("");
   const [activityTime, setActivityTime] = useState(0);
   const [activitySelected, setActivitySelected] = useState(0);
   return (
     <ActivityContext.Provider
       value={{
         activityName,
-        setactivityName,
+        setActivityName,
         activityTime,
         setActivityTime,
         activitySelected,

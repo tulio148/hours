@@ -6,13 +6,8 @@ import { createActivity, updateActivityTime } from "@/app/_actions";
 
 export default function Controls() {
   const { time, setTime, isOn, setIsOn, setDisplayIsHidden } = useTime();
-  const {
-    activityName,
-    activityTime,
-    setActivityTime,
-    activityId,
-    setActivityId,
-  } = useActivity();
+  const { activityName, activityTime, setActivityTime, activitySelected } =
+    useActivity();
 
   const start = () => {
     setIsOn(!isOn);
@@ -29,8 +24,9 @@ export default function Controls() {
   };
 
   const save = async () => {
+    // INSERT ACTIVITYTIME CONTEXT INSIDE CREATE ACTIVITY
     await createActivity(activityName);
-    await updateActivityTime(activityTime, activityId);
+    await updateActivityTime(activityTime, activitySelected);
   };
 
   const hideBtn = isOn || time === 0 ? "hidden" : "";

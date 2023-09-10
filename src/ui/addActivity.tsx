@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
 export default function AddActivity() {
-  const { setactivityName, setActivitySelected } = useActivity();
+  const { setActivityName, setActivitySelected } = useActivity();
 
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -16,7 +16,7 @@ export default function AddActivity() {
   });
   const onSubmit = async (data: any) => {
     setActivitySelected(-1);
-    setactivityName(data.name);
+    setActivityName(data.name);
     reset();
   };
 
