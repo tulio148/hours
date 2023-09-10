@@ -6,9 +6,8 @@ import Display from "./display";
 import Controls from "./controls";
 
 export default function Timer() {
-  const { time, setTime, isOn, setIsOn, displayIsHidden, setDisplayIsHidden } =
-    useTime();
-  const { name, setActivityTime } = useActivity();
+  const { time, setTime, isOn } = useTime();
+  const { activityName } = useActivity();
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -29,35 +28,12 @@ export default function Timer() {
     localStorage.setItem("time", JSON.stringify(time));
   }, [time]);
 
-  const start = () => {
-    setIsOn(!isOn);
-    if (isOn === true) {
-      setDisplayIsHidden(false);
-    }
-  };
-
-  const reset = () => setTime(0);
-
-  const end = () => {
-    setActivityTime(time);
-    setTime(0);
-  };
-
-  const hideDisplayFunc = () => {
-    setDisplayIsHidden(!displayIsHidden);
-  };
-
   return (
     <>
-      {name != "" && (
-        <div className="flex flex-col gap-5">
-          <Display
-            time={time}
-            isOn={isOn}
-            hideDisplayFunc={hideDisplayFunc}
-            displayIsHidden={displayIsHidden}
-          />
-          <Controls start={start} reset={reset} end={end} />
+      {activityName != "" && (
+        <div className="flex flex-col gap-5 mt-20">
+          <Display />
+          <Controls />
         </div>
       )}
     </>

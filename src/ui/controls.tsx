@@ -2,18 +2,36 @@
 import { useActivity } from "@/providers/activityProvider";
 import ControlButton from "./control_button";
 import { useTime } from "@/providers/timerProvider";
+import { createActivity, updateActivityTime } from "@/app/_actions";
 
-export default function Controls({
-  start,
-  reset,
-  end,
-}: {
-  start: () => void;
-  reset: () => void;
-  end: () => void;
-}) {
-  const { time, setTime, isOn } = useTime();
-  const { name, setName, setActivityTime } = useActivity();
+export default function Controls() {
+  const { time, setTime, isOn, setIsOn, setDisplayIsHidden } = useTime();
+  const {
+    activityName,
+    activityTime,
+    setActivityTime,
+    activityId,
+    setActivityId,
+  } = useActivity();
+
+  const start = () => {
+    setIsOn(!isOn);
+    if (isOn === true) {
+      setDisplayIsHidden(false);
+    }
+  };
+
+  const reset = () => setTime(0);
+
+  const end = () => {
+    setActivityTime(time);
+    setTime(0);
+  };
+
+  const save = async () => {
+    await createActivity(activityName);
+    await updateActivityTime(activityTime, activityId);
+  };
 
   const hideBtn = isOn || time === 0 ? "hidden" : "";
 
@@ -31,8 +49,8 @@ export default function Controls({
         </ControlButton>
       </div>
 
-      {name != "" && (
-        <ControlButton className="self-center" onClick={create}>
+      {activityName != "" && (
+        <ControlButton className="self-center" onClick={save}>
           Save
         </ControlButton>
       )}

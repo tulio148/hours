@@ -1,19 +1,17 @@
+"use client";
+
+import { useTime } from "@/providers/timerProvider";
 import { hour, minutes, seconds } from "../utils/timeFormatter";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 
-export default function Display({
-  time,
-  isOn,
-  hideDisplayFunc,
-  displayIsHidden,
-}: {
-  time: number;
-  isOn: boolean;
-  hideDisplayFunc: () => void;
-  displayIsHidden: boolean;
-}) {
+export default function Display() {
+  const { time, isOn, displayIsHidden, setDisplayIsHidden } = useTime();
+
+  const hideDisplayFunc = () => {
+    setDisplayIsHidden(!displayIsHidden);
+  };
   return (
     <div className="relative w-11/12 mx-auto p-1 bg-zinc-100 rounded-md">
       <div
