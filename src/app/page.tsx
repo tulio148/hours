@@ -1,20 +1,21 @@
 import Timer from "../ui/timer";
-import { UserButton } from "@clerk/nextjs";
-import { SignIn } from "@clerk/nextjs";
-import Form from "@/ui/form";
+import Navbar from "@/ui/navbar";
+import { getActivities, createOrUpdateUser } from "./_actions";
+import { auth } from "@clerk/nextjs";
+import Activities from "@/ui/activities";
+
 export default async function Home() {
+  const activities = await getActivities();
+  const { userId } = auth();
+  if (userId) createOrUpdateUser();
+
   return (
-    <main className="h-screen w-screen flex items-center justify-around flex-col">
-      <SignIn />
-      <UserButton afterSignOutUrl="/" />
-      <a
-        href="/activity"
-        className="text-2xl font-bold underline text-blue-500"
-      >
-        Activity
-      </a>
-      <Form />
-      <Timer />
-    </main>
+    <>
+      <Navbar />
+      <main className="h-screen w-screen flex flex-col max-w-3xl mx-auto">
+        <Activities activities={activities} />
+        <Timer />
+      </main>
+    </>
   );
 }
