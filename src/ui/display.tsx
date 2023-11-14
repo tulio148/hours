@@ -1,7 +1,7 @@
 "use client";
 
 import { useTime } from "@/providers/timerProvider";
-import { hour, minutes, seconds } from "../utils/timeFormatter";
+import { hour, minutes, seconds } from "../lib/utils/timeFormatter";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";

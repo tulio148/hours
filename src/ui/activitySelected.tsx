@@ -1,7 +1,7 @@
 "use client";
 
 import { useActivity } from "@/providers/activityProvider";
-import { hour, minutes, seconds } from "@/utils/timeFormatter";
+import { hour, minutes, seconds } from "@/lib/utils/timeFormatter";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
