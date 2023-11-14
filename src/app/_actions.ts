@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import prisma from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs";
 
@@ -30,10 +32,9 @@ export async function upsertActivity(name: string, hours: number) {
   const existingActivity = await prisma.activity.findUnique({
     where: { name_userId: { name: name, userId: user.id } },
   });
-  console.log(existingActivity);
+
   if (existingActivity) {
-    // Update the existing record
-    return await prisma.activity.update({
+    const activity = await prisma.activity.update({
       where: { id: existingActivity.id },
       data: {
         hours: {
@@ -42,29 +43,11 @@ export async function upsertActivity(name: string, hours: number) {
       },
     });
   } else {
-    return await prisma.activity.create({
+    const activity = await prisma.activity.create({
       data: data,
     });
   }
-}
-
-export async function createActivity(name: string) {
-  return await prisma.activity.create({
-    data: { name: name },
-  });
-}
-
-export async function updateActivityTime(time: number, id: number) {
-  return await prisma.activity.update({
-    where: {
-      id: id,
-    },
-    data: {
-      hours: {
-        increment: time,
-      },
-    },
-  });
+  revalidatePath("/");
 }
 
 export async function createOrUpdateUser() {
