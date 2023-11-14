@@ -7,12 +7,45 @@ export async function getActivities() {
   return await prisma.activity.findMany();
 }
 
-export async function getActivity(id: number) {
-  return await prisma.activity.findUnique({
+export async function getActivity(name: string) {
+  return await prisma.activity.findFirst({
     where: {
-      id,
+      name: name,
     },
   });
+}
+
+export async function upsertActivity(name: string, hours: number) {
+  const user = await currentUser();
+  if (!user) {
+    throw new Error("You must be signed in to use this feature");
+  }
+
+  const data = {
+    name: name,
+    userId: user.id,
+    hours: hours,
+  };
+
+  const existingActivity = await prisma.activity.findUnique({
+    where: { name_userId: { name: name, userId: user.id } },
+  });
+  console.log(existingActivity);
+  if (existingActivity) {
+    // Update the existing record
+    return await prisma.activity.update({
+      where: { id: existingActivity.id },
+      data: {
+        hours: {
+          increment: hours,
+        },
+      },
+    });
+  } else {
+    return await prisma.activity.create({
+      data: data,
+    });
+  }
 }
 
 export async function createActivity(name: string) {
@@ -24,7 +57,7 @@ export async function createActivity(name: string) {
 export async function updateActivityTime(time: number, id: number) {
   return await prisma.activity.update({
     where: {
-      id: 1,
+      id: id,
     },
     data: {
       hours: {

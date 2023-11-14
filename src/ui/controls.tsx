@@ -2,7 +2,8 @@
 import { useActivity } from "@/providers/activityProvider";
 import ControlButton from "./control_button";
 import { useTime } from "@/providers/timerProvider";
-import { createActivity, updateActivityTime } from "@/app/_actions";
+import { upsertActivity } from "@/app/_actions";
+import prisma from "@/lib/prisma";
 
 export default function Controls() {
   const { time, setTime, isOn, setIsOn, setDisplayIsHidden } = useTime();
@@ -24,9 +25,8 @@ export default function Controls() {
   };
 
   const save = async () => {
-    // INSERT ACTIVITYTIME CONTEXT INSIDE CREATE ACTIVITY
-    await createActivity(activityName);
-    await updateActivityTime(activityTime, activitySelected);
+    console.log(activityTime);
+    await upsertActivity(activityName, activityTime);
   };
 
   const hideBtn = isOn || time === 0 ? "hidden" : "";
