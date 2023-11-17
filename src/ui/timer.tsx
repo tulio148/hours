@@ -31,7 +31,7 @@ export default function Timer() {
   return (
     <>
       {activityName != "" && (
-        <div className="flex flex-col gap-5 mt-20">
+        <div className="flex flex-col gap-5 mt-10 min-w-[300px] max-w-5xl">
           <Display />
           <Controls />
         </div>

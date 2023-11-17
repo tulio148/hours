@@ -21,15 +21,15 @@ export default function AddActivity() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex gap-4">
       <input
-        className="border-b focus:outline-none w-full"
+        className="border-b focus:outline-none w-full rounded-md px-2 py-1"
         type="text"
         placeholder=""
         {...register("name", {})}
       />
       <button type="submit" className="icon-button">
-        <FontAwesomeIcon icon={faPlus} size="lg" style={{ color: "#636974" }} />
+        <FontAwesomeIcon icon={faPlus} size="lg" style={{ color: "#000000" }} />
       </button>
     </form>
   );
