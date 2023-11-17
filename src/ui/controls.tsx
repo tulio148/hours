@@ -3,12 +3,17 @@ import { useActivity } from "@/providers/activityProvider";
 import ControlButton from "./control_button";
 import { useTime } from "@/providers/timerProvider";
 import { upsertActivity } from "@/app/_actions";
-import prisma from "@/lib/prisma";
 
 export default function Controls() {
   const { time, setTime, isOn, setIsOn, setDisplayIsHidden } = useTime();
-  const { activityName, activityTime, setActivityTime, activitySelected } =
-    useActivity();
+  const {
+    activityName,
+    setActivityName,
+    activityTime,
+    setActivityTime,
+    activitySelected,
+    setActivitySelected,
+  } = useActivity();
 
   const start = () => {
     setIsOn(!isOn);
@@ -25,8 +30,10 @@ export default function Controls() {
   };
 
   const save = async () => {
-    console.log(activityTime);
     await upsertActivity(activityName, activityTime);
+    setActivityTime(0);
+    setActivityName("");
+    setActivitySelected(0);
   };
 
   const hideBtn = isOn || time === 0 ? "hidden" : "";
