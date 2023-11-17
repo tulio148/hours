@@ -50,7 +50,7 @@ export async function upsertActivity(name: string, hours: number) {
   revalidatePath("/");
 }
 
-export async function createOrUpdateUser() {
+export async function upsertUser() {
   const user = await currentUser();
   return await prisma.user.upsert({
     where: {
