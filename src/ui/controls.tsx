@@ -6,14 +6,7 @@ import { upsertActivity } from "@/app/_actions";
 
 export default function Controls() {
   const { time, setTime, isOn, setIsOn, setDisplayIsHidden } = useTime();
-  const {
-    activityName,
-    setActivityName,
-    activityTime,
-    setActivityTime,
-    activitySelected,
-    setActivitySelected,
-  } = useActivity();
+  const { activityName, setActivityName, setActivitySelected } = useActivity();
 
   const start = () => {
     setIsOn(!isOn);
@@ -24,16 +17,11 @@ export default function Controls() {
 
   const reset = () => setTime(0);
 
-  const end = () => {
-    setActivityTime(time);
-    setTime(0);
-  };
-
   const save = async () => {
-    await upsertActivity(activityName, activityTime);
-    setActivityTime(0);
+    await upsertActivity(activityName, time);
     setActivityName("");
     setActivitySelected(0);
+    setTime(0);
   };
 
   const hideBtn = isOn || time === 0 ? "hidden" : "";
@@ -47,16 +35,12 @@ export default function Controls() {
         <ControlButton onClick={start}>
           {isOn ? "pause" : "start"}
         </ControlButton>
-        <ControlButton className={hideBtn} onClick={end}>
-          end
-        </ControlButton>
+        {time != 0 && !isOn && (
+          <ControlButton className="self-center" onClick={save}>
+            save
+          </ControlButton>
+        )}
       </div>
-
-      {activityName != "" && (
-        <ControlButton className="self-center" onClick={save}>
-          Save
-        </ControlButton>
-      )}
     </div>
   );
 }

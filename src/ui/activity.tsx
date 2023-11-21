@@ -7,37 +7,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ActivityType } from "@/lib/types/activity.types";
 
 export default function Activity({ activity }: { activity: ActivityType }) {
-  const {
-    setActivityTime,
-    setActivityName,
-    activitySelected,
-    setActivitySelected,
-  } = useActivity();
-  const { time, setTime, isOn, setIsOn, setDisplayIsHidden } = useTime();
+  const { setActivityName, activitySelected, setActivitySelected } =
+    useActivity();
 
-  const selectActivity = (id: number) => {
-    setActivitySelected(id);
-  };
+  const { time, setTime, isOn, setIsOn, displayIsHidden, setDisplayIsHidden } =
+    useTime();
 
   return (
     <div className="w-full py-2">
       <button
         onClick={() => {
           if (activitySelected !== activity.id) {
-            selectActivity(activity.id);
+            setActivitySelected(activity.id);
             setActivityName(activity.name);
-            setActivityTime(0);
           } else {
-            selectActivity(activity.id);
+            setActivitySelected(activity.id);
           }
         }}
         className="w-full flex gap-2 items-center tracking-wider"
       >
-        {activity.name}
+        <span className="font-extralight">{activity.name}</span>
         <div
           className={`ml-auto opacity-${
             activitySelected === activity.id ? "100" : "0"
-          } transition-opacity duration-700 flex items-center gap-3`}
+          } transition-opacity duration-700 flex items-center gap-3 text-zinc-700`}
         >
           <FontAwesomeIcon
             icon={faHourglassEnd}
