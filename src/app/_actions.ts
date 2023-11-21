@@ -34,7 +34,7 @@ export async function upsertActivity(name: string, hours: number) {
   });
 
   if (existingActivity) {
-    const activity = await prisma.activity.update({
+    await prisma.activity.update({
       where: { id: existingActivity.id },
       data: {
         hours: {
@@ -43,7 +43,7 @@ export async function upsertActivity(name: string, hours: number) {
       },
     });
   } else {
-    const activity = await prisma.activity.create({
+    await prisma.activity.create({
       data: data,
     });
   }
