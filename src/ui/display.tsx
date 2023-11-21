@@ -13,10 +13,10 @@ export default function Display() {
     setDisplayIsHidden(!displayIsHidden);
   };
   return (
-    <div className="relative w-full  mx-auto p-3 bg-gradient-to-br from-white  via-slate-200/50  to-white rounded-xl shadow-md">
+    <div className="relative w-full  mx-auto p-3 bg-gradient-to-br from-white via-slate-200/50 to-white rounded-xl shadow-md">
       <div
         className={clsx(
-          "flex justify-center transition-opacity duration-1000 w-1/2 mx-auto text-4xl lg:text-5xl text-zinc-900 tracking-wide text-center",
+          "flex justify-center transition-opacity duration-1000  w-1/2 mx-auto text-4xl lg:text-5xl text-zinc-700 tracking-wide text-center",
           { "opacity-0": displayIsHidden }
         )}
       >
