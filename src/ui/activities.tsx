@@ -19,7 +19,7 @@ export default function Activities({
   } = useActivity();
 
   return (
-    <div className="flex flex-col gap-4 max-w-5xl  m-4 mt-10 p-6 border-b bg-gradient-to-tl from-white to-slate-200 to-50%  rounded-xl shadow-md text-xl text-slate-500">
+    <div className="flex flex-col gap-4 max-w-5xl  m-4 mt-10 p-6 border-b bg-gradient-to-tl from-white from-20% to-slate-200   rounded-xl shadow-md text-xl text-slate-500">
       {activities.map((activity) => (
         <div key={activity.id}>
           <Activity activity={activity} />
