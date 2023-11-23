@@ -1,12 +1,20 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-
+import { ActivityType } from "@/types/activity";
 import prisma from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs";
 
-export async function getActivities() {
-  return await prisma.activity.findMany();
+export async function getActivities(): Promise<ActivityType[]> {
+  const user = await currentUser();
+  if (user) {
+    return await prisma.activity.findMany({
+      where: {
+        userId: user!.id,
+      },
+    });
+  }
+  return [];
 }
 
 export async function getActivity(name: string) {
