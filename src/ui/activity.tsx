@@ -20,13 +20,17 @@ export default function Activity({ activity }: { activity: ActivityType }) {
           if (activitySelected !== activity.id) {
             setActivitySelected(activity.id);
             setActivityName(activity.name);
-          } else {
-            setActivitySelected(activity.id);
           }
         }}
         className="w-full flex gap-2 items-center tracking-wider"
       >
-        <span className="font-extralight">{activity.name}</span>
+        <span
+          className={`font-${
+            activitySelected === activity.id ? "bold" : "extrathin"
+          }`}
+        >
+          {activity.name}
+        </span>
         <div
           className={`ml-auto opacity-${
             activitySelected === activity.id ? "100" : "0"
