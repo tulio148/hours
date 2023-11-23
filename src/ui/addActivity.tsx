@@ -15,6 +15,10 @@ export default function AddActivity() {
     },
   });
   const onSubmit = async (data: any) => {
+    if (data.name == "") {
+      reset();
+      return;
+    }
     setActivitySelected(-1);
     setActivityName(data.name);
     reset();
@@ -23,7 +27,7 @@ export default function AddActivity() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex gap-4">
       <input
-        className="border-b focus:outline-none w-full rounded-md px-2 py-1"
+        className="border-b border-r border-black/10 focus:outline-none w-full rounded-md px-2 py-1"
         type="text"
         placeholder=""
         {...register("name", {})}
