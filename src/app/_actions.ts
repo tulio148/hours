@@ -75,3 +75,19 @@ export async function upsertUser() {
     },
   });
 }
+
+export async function deleteActivity(name: string) {
+  const user = await currentUser();
+  if (!user) {
+    throw new Error("You must be signed in to delete an activity");
+  }
+
+  await prisma.activity.deleteMany({
+    where: {
+      userId: user.id,
+      name: name,
+    },
+  });
+
+  revalidatePath("/");
+}
