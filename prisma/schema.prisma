@@ -18,16 +18,31 @@ model User {
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   activities Activity[]
+  categories Category[]
+}
+
+model Category {
+  id         Int        @id @default(autoincrement())
+  name       String
+  activities Activity[]
+  User       User?      @relation(fields: [userId], references: [id])
+  userId     String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  @@unique([name, userId])
 }
 
 model Activity {
-  id        Int      @id @default(autoincrement())
-  name      String
-  hours     Int      @default(0)
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int       @id @default(autoincrement())
+  name       String
+  hours      Int       @default(0)
+  user       User?     @relation(fields: [userId], references: [id])
+  userId     String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   @@unique([name, userId])
 }
