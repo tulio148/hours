@@ -2,13 +2,13 @@
 
 import { useActivity } from "@/providers/activityProvider";
 import { hour, minutes, seconds } from "@/lib/utils/timeFormatter";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faHourglassEnd } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTime } from "@/providers/timerProvider";
 import clsx from "clsx";
 
 export default function ActivitySelected() {
-  const { time, displayIsHidden } = useTime();
+  const { isOn } = useTime();
   const { activityName, activitySelected } = useActivity();
   console.log(activitySelected);
 
@@ -19,25 +19,15 @@ export default function ActivitySelected() {
         {activityName && (
           <div
             className={clsx(
-              "flex gap-3 items-center transition-opacity duration-1000",
-              {
-                "opacity-0": displayIsHidden,
-              }
+              "flex gap-3 items-center transition-opacity duration-1000"
             )}
           >
             <FontAwesomeIcon
-              icon={faClock}
-              size="sm"
-              style={{ color: "#000000" }}
+              icon={faHourglassEnd}
+              size="xl"
+              style={{ color: "red" }}
+              className={isOn ? "animate-pulse-slow mr-8" : "mr-8 opacity-0"}
             />
-            <div>
-              {hour(time) != "0" && <span>{hour(time)}:</span>}
-              {hour(time) != "0" && (
-                <span>{minutes(time).padStart(2, "0")}:</span>
-              )}
-              {hour(time) == "0" && <span>{minutes(time)}:</span>}
-              <span>{seconds(time)}</span>
-            </div>
           </div>
         )}
       </div>

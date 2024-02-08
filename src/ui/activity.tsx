@@ -4,8 +4,8 @@ import { useTime } from "@/providers/timerProvider";
 import { hour, minutes, seconds } from "@/lib/utils/timeFormatter";
 import { faHourglassEnd, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ActivityType } from "@/lib/types/activity.types";
 import { deleteActivity } from "@/app/_actions";
+import { ActivityType, CategoryType, UserType } from "@/lib/types/prisma";
 
 export default function Activity({ activity }: { activity: ActivityType }) {
   const { setActivityName, activitySelected, setActivitySelected } =
@@ -16,29 +16,30 @@ export default function Activity({ activity }: { activity: ActivityType }) {
   console.log(activitySelected);
   return (
     <div className="w-full py-2 flex justify-between items-center">
-      <div className="flex gap-2 items-center">
-        <button
-          onClick={() => {
-            if (activitySelected !== activity.id) {
-              setActivitySelected(activity.id);
-              setActivityName(activity.name);
-            }
-          }}
-          className={`font-${
-            activitySelected === activity.id ? "bold" : "extrathin"
-          }`}
-        >
-          {activity.name}
-        </button>
+      <button
+        onClick={() => {
+          if (activitySelected !== activity.id) {
+            setActivitySelected(activity.id);
+            setActivityName(activity.name);
+          }
+        }}
+        className={`font-${
+          activitySelected === activity.id ? "bold" : "extrathin"
+        }`}
+      >
+        {activity.name}
+      </button>
+      <div className="flex gap-4 items-center">
         <div
-          className={`ml-auto opacity-${
+          className={`ml-auto border border-black/20 px-3 py-1 rounded-lg opacity-${
             activitySelected === activity.id ? "100" : "0"
-          } transition-opacity duration-700 flex items-center gap-3 text-zinc-700`}
+          } transition-opacity duration-1000 flex items-center gap-2 text-zinc-700`}
         >
           <FontAwesomeIcon
             icon={faHourglassEnd}
             size="sm"
             style={{ color: "#000000" }}
+            className="opacity-60"
           />
           <div>
             {hour(activity.hours) !== "0" && (
@@ -53,8 +54,7 @@ export default function Activity({ activity }: { activity: ActivityType }) {
             <span>{seconds(activity.hours)}</span>
           </div>
         </div>
-      </div>
-      {activitySelected === activity.id && (
+
         <button
           onClick={() => {
             if (confirm("Are you sure you want to delete this activity?")) {
@@ -63,10 +63,18 @@ export default function Activity({ activity }: { activity: ActivityType }) {
               setActivityName("");
             }
           }}
+          className={`ml-auto opacity-${
+            activitySelected === activity.id ? "100" : "0"
+          } transition-opacity duration-1000`}
         >
-          <FontAwesomeIcon icon={faX} size="lg" style={{ color: "red" }} />
+          <FontAwesomeIcon
+            icon={faX}
+            size="sm"
+            style={{ color: "red" }}
+            className="opacity-50"
+          />
         </button>
-      )}
+      </div>
     </div>
   );
 }
