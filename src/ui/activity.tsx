@@ -1,6 +1,5 @@
 "use client";
 import { useActivity } from "@/providers/activityProvider";
-import { useTime } from "@/providers/timerProvider";
 import { hour, minutes, seconds } from "@/lib/utils/timeFormatter";
 import { faHourglassEnd, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,9 +10,6 @@ export default function Activity({ activity }: { activity: ActivityType }) {
   const { setActivityName, activitySelected, setActivitySelected } =
     useActivity();
 
-  const { time, setTime, isOn, setIsOn, displayIsHidden, setDisplayIsHidden } =
-    useTime();
-  console.log(activitySelected);
   return (
     <div className="w-full py-2 flex justify-between items-center">
       <button
