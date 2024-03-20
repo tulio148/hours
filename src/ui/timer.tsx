@@ -12,17 +12,17 @@ export default function Timer() {
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isOn) {
-      interval = setInterval(() => setTime((p) => p + 1), 1000);
+      interval = setInterval(() => setTime(time + 1), 1000);
     }
     return () => clearInterval(interval);
-  }, [isOn, time]);
+  }, [isOn, time, setTime]);
 
   useEffect(() => {
     const savedTime = localStorage.getItem("time");
     if (savedTime) {
       setTime(JSON.parse(savedTime));
     }
-  }, []);
+  }, [setTime]);
 
   useEffect(() => {
     localStorage.setItem("time", JSON.stringify(time));
