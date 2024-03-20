@@ -9,7 +9,6 @@ export default async function Home() {
   const categories = await getCategories();
   const { userId } = auth();
   if (userId) upsertUser();
-  console.log(activities);
   return (
     <>
       <Navbar />

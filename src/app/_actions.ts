@@ -25,66 +25,31 @@ export async function getActivity(name: string) {
   });
 }
 
-export async function upsertActivity(
-  name: string,
-  hours: number,
-  categoryName?: string
-) {
+export async function upsertActivity(name: string, hours: number) {
   const user = await currentUser();
   if (!user) {
     throw new Error("You must be signed in to use this feature");
   }
 
-  // Check if categoryName is provided
-  if (categoryName) {
-    // Check if the category already exists
-    let category = await prisma.category.findUnique({
-      where: { name_userId: { name: categoryName, userId: user.id } },
-    });
+  const existingActivity = await prisma.activity.findUnique({
+    where: { name_userId: { name: name, userId: user.id } },
+  });
 
-    // If category doesn't exist, create a new one
-    if (!category) {
-      category = await prisma.category.create({
-        data: {
-          name: categoryName,
-          userId: user.id,
-        },
-      });
-    }
-
-    // Create the activity with the specified category
-    await prisma.activity.create({
+  if (existingActivity) {
+    await prisma.activity.update({
+      where: { id: existingActivity.id },
       data: {
-        name: name,
-        userId: user.id,
-        hours: hours,
-        categoryId: category.id,
+        hours: {
+          increment: hours,
+        },
       },
     });
   } else {
-    // If categoryName is not provided, use the default category
-    // Check if the default category exists
-    let defaultCategory = await prisma.category.findUnique({
-      where: { name_userId: { name: "Default Category", userId: user.id } },
-    });
-
-    // If default category doesn't exist, create a new one
-    if (!defaultCategory) {
-      defaultCategory = await prisma.category.create({
-        data: {
-          name: "Default Category",
-          userId: user.id,
-        },
-      });
-    }
-
-    // Create the activity with the default category
     await prisma.activity.create({
       data: {
-        name: name,
+        name,
         userId: user.id,
-        hours: hours,
-        categoryId: defaultCategory.id,
+        hours,
       },
     });
   }
@@ -156,9 +121,11 @@ export async function upsertCategory(name: string): Promise<CategoryType> {
   if (existingCategory) {
     return existingCategory;
   } else {
-    return await prisma.category.create({
+    const newCategory = await prisma.category.create({
       data: data,
     });
+    revalidatePath("/");
+    return newCategory;
   }
 }
 
@@ -172,6 +139,34 @@ export async function deleteCategory(name: string) {
     where: {
       userId: user.id,
       name: name,
+    },
+  });
+
+  revalidatePath("/");
+}
+
+export async function addActivityToCategory(
+  activityName: string,
+  categoryName: string
+): Promise<void> {
+  const user = await currentUser();
+
+  const activity = await prisma.activity.findUnique({
+    where: { name_userId: { name: activityName, userId: user!.id } },
+  });
+
+  const category = await prisma.category.findUnique({
+    where: { name_userId: { name: categoryName, userId: user!.id } },
+  });
+
+  if (!activity || !category) {
+    throw new Error("Activity or category not found.");
+  }
+
+  await prisma.activity.update({
+    where: { id: activity.id },
+    data: {
+      category: { connect: { id: category.id } },
     },
   });
 
