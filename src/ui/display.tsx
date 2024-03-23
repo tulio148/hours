@@ -7,7 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 
 export default function Display() {
-  const { time, isOn, displayIsHidden, setDisplayIsHidden } = useTime();
+  const {
+    time,
+    isOn,
+    displayTime,
+    setDisplayTime,
+    displayIsHidden,
+    setDisplayIsHidden,
+  } = useTime();
 
   const hideDisplayFunc = () => {
     setDisplayIsHidden(!displayIsHidden);
@@ -21,10 +28,12 @@ export default function Display() {
         )}
       >
         <div>
-          {hour(time) != "0" && <span>{hour(time)}:</span>}
-          {hour(time) != "0" && <span>{minutes(time).padStart(2, "0")}:</span>}
-          {hour(time) == "0" && <span>{minutes(time)}:</span>}
-          <span>{seconds(time)}</span>
+          {hour(displayTime) != "0" && <span>{hour(displayTime)}:</span>}
+          {hour(displayTime) != "0" && (
+            <span>{minutes(displayTime).padStart(2, "0")}:</span>
+          )}
+          {hour(displayTime) == "0" && <span>{minutes(displayTime)}:</span>}
+          <span>{seconds(displayTime)}</span>
         </div>
       </div>
 
