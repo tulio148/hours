@@ -5,17 +5,35 @@ import { useTime } from "@/providers/timerProvider";
 import { upsertActivity } from "@/app/_actions";
 
 export default function Controls() {
-  const { time, setTime, isOn, setIsOn, setDisplayIsHidden } = useTime();
+  const {
+    startTime,
+    setStartTime,
+    displayTime,
+    setDisplayTime,
+    time,
+    setTime,
+    isOn,
+    setIsOn,
+    setDisplayIsHidden,
+  } = useTime();
   const { activityName, setActivityName, setActivitySelected } = useActivity();
 
   const start = () => {
-    setIsOn(!isOn);
-    if (isOn === true) {
+    if (isOn === false) {
+      setStartTime(Date.now());
+      setIsOn(!isOn);
+    } else {
       setDisplayIsHidden(false);
+      setIsOn(!isOn);
+      setTime(time + (Date.now() - startTime) / 1000);
     }
   };
 
-  const reset = () => setTime(0);
+  const reset = () => {
+    setStartTime(0);
+    setTime(0);
+    setDisplayTime(0);
+  };
 
   const save = async () => {
     await upsertActivity(activityName, time);
