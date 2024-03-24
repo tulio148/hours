@@ -1,10 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Urbanist } from "next/font/google";
 import { TimerProvider } from "@/providers/timerProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ActivityProvider } from "@/providers/activityProvider";
 const inter = Inter({ subsets: ["latin"] });
+const urbanist = Urbanist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "hours",
@@ -28,7 +29,7 @@ export default async function RootLayout({
       }}
     >
       <html lang="en">
-        <body className={inter.className}>
+        <body className={urbanist.className}>
           <ActivityProvider>
             <TimerProvider>{children}</TimerProvider>
           </ActivityProvider>
