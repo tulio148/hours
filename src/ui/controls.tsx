@@ -3,6 +3,7 @@ import { useActivity } from "@/providers/activityProvider";
 import ControlButton from "./control_button";
 import { useTime } from "@/providers/timerProvider";
 import { upsertActivity } from "@/app/_actions";
+import { set } from "react-hook-form";
 
 export default function Controls() {
   const {
@@ -40,6 +41,7 @@ export default function Controls() {
     setActivityName("");
     setActivitySelected(0);
     setTime(0);
+    setDisplayTime(0);
   };
 
   const hideBtn = isOn || time === 0 ? "hidden" : "";
