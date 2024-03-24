@@ -29,11 +29,11 @@ export default function AddActivity() {
       <input
         className="border-b border-r border-black/10 focus:outline-none w-full rounded-md px-2 py-1"
         type="text"
-        placeholder=""
+        placeholder="example activity"
         {...register("name", {})}
       />
       <button type="submit" className="icon-button">
-        <FontAwesomeIcon icon={faPlus} size="lg" style={{ color: "#000000" }} />
+        <FontAwesomeIcon icon={faPlus} size="lg" style={{ color: "grey" }} />
       </button>
     </form>
   );

@@ -20,7 +20,7 @@ export default function Activity({ activity }: { activity: ActivityType }) {
           }
         }}
         className={`font-${
-          activitySelected === activity.id ? "bold" : "extrathin"
+          activitySelected === activity.id ? "medium" : "normal"
         }`}
       >
         {activity.name}
@@ -66,7 +66,7 @@ export default function Activity({ activity }: { activity: ActivityType }) {
           <FontAwesomeIcon
             icon={faX}
             size="sm"
-            style={{ color: "red" }}
+            style={{ color: "grey" }}
             className="opacity-50"
           />
         </button>

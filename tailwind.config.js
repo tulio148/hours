@@ -15,11 +15,11 @@ module.exports = {
       keyframes: {
         "pulse-slow": {
           "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.1" },
+          "50%": { opacity: "0.05" },
         },
       },
       animation: {
-        "pulse-slow": "pulse-slow 6s ease-in-out infinite",
+        "pulse-slow": "pulse-slow 10s ease-in-out infinite",
       },
     },
   },
