@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Activity from "./activity";
 import AddActivity from "./addActivity";
 import ActivitySelected from "./activitySelected";
@@ -8,6 +8,7 @@ import { useActivity } from "@/providers/activityProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { upsertCategory } from "@/app/_actions";
+import Modal from "./modal";
 
 export default function Activities({
   activities,
@@ -17,19 +18,22 @@ export default function Activities({
   categories: CategoryType[];
 }) {
   const { activitySelected } = useActivity();
-
+  const [isNoCategoryExpanded, setIsNoCategoryExpanded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [showCreateCategoryInput, setShowCreateCategoryInput] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
+  const modalRef = useRef();
 
   const toggleCategory = (categoryId: number | null) => {
     setSelectedCategory((prevCategoryId: number | null) =>
       prevCategoryId === categoryId ? null : categoryId
     );
   };
-
   const handleCreateCategory = () => {
     setShowCreateCategoryInput(true);
+  };
+  const handleCloseCreateCategoryModal = () => {
+    setShowCreateCategoryInput(false);
   };
 
   const handleConfirmCreateCategory = async () => {
@@ -44,25 +48,43 @@ export default function Activities({
   };
 
   return (
-    <div className="flex flex-col gap-4 max-w-5xl m-4 mt-10 p-6 border-b bg-gradient-to-tl from-white from-20% to-slate-200 rounded-xl shadow-md text-xl text-slate-500">
-      <div>
-        <div className="flex items-center justify-between cursor-pointer">
-          <h2 className="text-lg font-semibold">Uncategorized</h2>
-          <button
-            onClick={handleCreateCategory}
-            className="text-xs px-2 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-          >
-            <FontAwesomeIcon icon={faPlus} className="mr-1" />
-            Create Category
-          </button>
+    <div className="flex flex-col gap-4 max-w-5xl m-4 mt-10 p-6 border-b bg-gradient-to-tl from-white from-20% to-slate-200 rounded-xl drop-shadow-xl text-xl tracking-wider text-slate-500">
+      <button
+        onClick={handleCreateCategory}
+        className="text-sm rounded hover:bg-gray-300 w-fit self-end"
+      >
+        <FontAwesomeIcon
+          icon={faPlus}
+          size="sm"
+          style={{ color: "grey" }}
+          className="mr-1"
+        />
+        category
+      </button>
+      <div
+        className={`cursor-pointer ${isNoCategoryExpanded ? "expanded" : ""}`}
+        onClick={() => setIsNoCategoryExpanded(!isNoCategoryExpanded)}
+      >
+        <div className="flex justify-between">
+          <h2 className="text-xl font-medium">No category</h2>
+          <FontAwesomeIcon
+            icon={faArrowRight}
+            size="sm"
+            style={{
+              transform: isNoCategoryExpanded
+                ? "rotate(90deg)"
+                : "rotate(0deg)",
+              color: "grey",
+            }}
+          />
         </div>
-        <div className="ml-4 mb-2">
-          {activities
-            .filter((activity) => !activity.categoryId)
-            .map((activity) => (
-              <Activity key={activity.id} activity={activity} />
-            ))}
-        </div>
+      </div>
+      <div className={`ml-4 mb-2 ${isNoCategoryExpanded ? "block" : "hidden"}`}>
+        {activities
+          .filter((activity) => !activity.categoryId)
+          .map((activity) => (
+            <Activity key={activity.id} activity={activity} />
+          ))}
       </div>
 
       {categories.map((category) => (
@@ -71,7 +93,7 @@ export default function Activities({
             className="flex items-center justify-between cursor-pointer"
             onClick={() => toggleCategory(category.id)}
           >
-            <h2 className="text-lg font-semibold">{category.name}</h2>
+            <h2 className="text-xl font-medium">{category.name}</h2>
             <FontAwesomeIcon
               icon={faArrowRight}
               size="sm"
@@ -80,6 +102,7 @@ export default function Activities({
                   selectedCategory === category.id
                     ? "rotate(90deg)"
                     : "rotate(0deg)",
+                color: "grey",
               }}
             />
           </div>
@@ -98,32 +121,22 @@ export default function Activities({
       ))}
 
       <AddActivity />
-      <div>
-        <ActivitySelected categories={categories} />
-        <div
-          className={`w-full border-t border-db-pink/30 border-slate-400 transition-transform duration-500 transform origin-left ${
-            activitySelected != 0 ? "scale-x-100" : "scale-x-0"
-          }`}
-        ></div>
-      </div>
-
-      {showCreateCategoryInput && (
-        <div className="mt-4">
+      <ActivitySelected />
+      <Modal
+        isOpen={showCreateCategoryInput}
+        onClose={handleCloseCreateCategoryModal}
+      >
+        <div className="flex gap-2">
           <input
             type="text"
-            placeholder="New Category Name"
-            className="border border-gray-400 px-2 py-1 rounded mr-2"
+            placeholder="New Category"
+            className="border rounded p-2"
             value={newCategoryName}
             onChange={(e) => setNewCategoryName(e.target.value)}
           />
-          <button
-            onClick={handleConfirmCreateCategory}
-            className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
-          >
-            Confirm
-          </button>
+          <button onClick={handleConfirmCreateCategory}>Confirm</button>
         </div>
-      )}
+      </Modal>
     </div>
   );
 }
